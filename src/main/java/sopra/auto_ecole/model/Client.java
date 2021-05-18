@@ -4,21 +4,36 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="client")
 public class Client {
-	
-	private int id;
+	@Id
+	@GeneratedValue
+	private Long id;
+	@Column(name="nom", length=100)
 	private String nom;
+	@Column(name="prenom", length=100)
 	private String prenom;
+	@Column(name="date_naissance", length=100)
 	private Date dtNaissance;
+	@Embedded
 	private Adresse adresse;
+	@OneToMany(mappedBy = client)
 	private List<Seance> seances = new ArrayList<Seance>();
 	
 	public Client() {
 		super();
 	}
 	
-	public Client(int id, String nom, String prenom, Date dtNaissance) {
+	public Client(Long id, String nom, String prenom, Date dtNaissance) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -26,11 +41,11 @@ public class Client {
 		this.dtNaissance = dtNaissance;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -76,6 +91,23 @@ public class Client {
 	
 	public void addUe(Seance seance) {
 		this.seances.add(seance);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Client [id=");
+		builder.append(id);
+		builder.append(", nom=");
+		builder.append(nom);
+		builder.append(", prenom=");
+		builder.append(prenom);
+		builder.append(", dtNaissance=");
+		builder.append(dtNaissance);
+		builder.append(", adresse=");
+		builder.append(adresse);
+		builder.append("]");
+		return builder.toString();
 	}
 	
 	

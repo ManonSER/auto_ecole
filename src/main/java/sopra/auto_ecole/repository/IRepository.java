@@ -1,7 +1,5 @@
 package sopra.auto_ecole.repository;
 
-
-
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,11 +7,12 @@ import javax.persistence.EntityTransaction;
 
 import sopra.auto_ecole.Application;
 
-public interface IRepository<T, PK> {
-	public List<T> findAll();
-
-	public T findById(PK id);
+public interface IRepository <T, PK> {
 	
+	List<T> findAll();
+
+	T findById(PK id);
+
 	public default T save(T obj) {
 		EntityManager em = null;
 		EntityTransaction tx = null;
@@ -39,7 +38,7 @@ public interface IRepository<T, PK> {
 		}
 
 		return obj;
-	};
+	}
 
 	public default void delete(T obj) {
 		EntityManager em = null;
@@ -64,5 +63,6 @@ public interface IRepository<T, PK> {
 				em.close();
 			}
 		}
-	};
+	}
+
 }
