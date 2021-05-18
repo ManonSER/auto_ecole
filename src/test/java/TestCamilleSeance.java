@@ -41,10 +41,13 @@ public class TestCamilleSeance {
 		seance.setNombreFautes(2);
 		seance.setEstExamen(true);
 		seance = seanceRepo.save(seance);
-		Seance seanceFind = seanceRepo.findById(seance.getId());
+		seance = seanceRepo.findById(seance.getId());
 		seance.setDate(date2);
 		seance.setNombreFautes(6);
 		seance.setEstExamen(false);
+		seance = seanceRepo.save(seance);
+		seance = seanceRepo.findById(seance.getId());
+		Seance seanceFind = seanceRepo.findById(seance.getId());
 		Assert.assertEquals(date2, seanceFind.getDate());
 		Assert.assertEquals(6, seanceFind.getNombreFautes());
 		Assert.assertEquals(false, seanceFind.getEstExamen());		

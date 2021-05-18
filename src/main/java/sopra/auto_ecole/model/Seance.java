@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Seance {
@@ -24,7 +23,7 @@ public class Seance {
 	@JoinColumn(name = "client_id")
 	private Client client;
 	@ManyToOne
-	@JoinColumn(name="serie_id")
+	@JoinColumn(name="Serie_id")
 	private Serie serie;
 	
 	public int getId() {
