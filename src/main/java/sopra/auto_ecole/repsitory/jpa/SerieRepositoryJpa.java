@@ -1,19 +1,22 @@
-package sopra.auto_ecole.repository;
+package sopra.auto_ecole.repsitory.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import sopra.auto_ecole.Application;
+import sopra.auto_ecole.model.CdRom;
+import sopra.auto_ecole.model.Serie;
+import sopra.auto_ecole.repository.ISerie;
 
-public interface IRepository <T, PK> {
-	
-	List<T> findAll();
+public class SerieRepositoryJpa implements ISerie{
 
-	T findById(PK id);
+	public List<Serie> findAll() {
+		List<Serie> series = new ArrayList<Serie>();
 
-	public default T save(T obj) {
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -22,7 +25,9 @@ public interface IRepository <T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			obj = em.merge(obj);
+			TypedQuery<Serie> query = em.createQuery("select e from serie e", Serie.class);
+
+			series = query.getResultList();
 
 			tx.commit();
 		} catch (Exception e) {
@@ -35,12 +40,12 @@ public interface IRepository <T, PK> {
 			if (em != null) {
 				em.close();
 			}
-		}
-
-		return obj;
 	}
+		return series;
+	}
+	public Serie findById(Long id) {
+		Serie serie = null;
 
-	public default void delete(T obj) {
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -49,7 +54,7 @@ public interface IRepository <T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			em.remove(em.merge(obj));
+			serie = em.find(Serie.class, id);
 
 			tx.commit();
 		} catch (Exception e) {
@@ -63,6 +68,8 @@ public interface IRepository <T, PK> {
 				em.close();
 			}
 		}
+
+		return serie;
 	}
 
 }
