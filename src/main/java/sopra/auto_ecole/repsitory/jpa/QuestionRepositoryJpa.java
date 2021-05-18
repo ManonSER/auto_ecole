@@ -1,19 +1,22 @@
-package sopra.auto_ecole.repository;
+package sopra.auto_ecole.repsitory.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import sopra.auto_ecole.Application;
+import sopra.auto_ecole.model.Question;
+import sopra.auto_ecole.repository.IQuestionRepository;
 
-public interface IRepository <T, PK> {
-	
-	List<T> findAll();
+public class QuestionRepositoryJpa implements IQuestionRepository{
 
-	T findById(PK id);
+	@Override
+	public List<Question> findAll() {
+		List<Question> questions = new ArrayList<Question>();
 
-	public default T save(T obj) {
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -22,7 +25,9 @@ public interface IRepository <T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			obj = em.merge(obj);
+			TypedQuery<Question> query = em.createQuery("select q from Question q", Question.class);
+
+			questions = query.getResultList();
 
 			tx.commit();
 		} catch (Exception e) {
@@ -37,10 +42,13 @@ public interface IRepository <T, PK> {
 			}
 		}
 
-		return obj;
+		return questions;
 	}
 
-	public default void delete(T obj) {
+	@Override
+	public Question findById(Long id) {
+		Question question = null;
+
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -49,7 +57,7 @@ public interface IRepository <T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			em.remove(em.merge(obj));
+			question = em.find(Question.class, id);
 
 			tx.commit();
 		} catch (Exception e) {
@@ -63,6 +71,7 @@ public interface IRepository <T, PK> {
 				em.close();
 			}
 		}
-	}
 
+		return question;
+	}
 }
