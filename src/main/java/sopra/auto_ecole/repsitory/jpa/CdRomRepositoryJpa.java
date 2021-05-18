@@ -1,20 +1,22 @@
-package sopra.auto_ecole.repository;
+package sopra.auto_ecole.repsitory.jpa;
 
-
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
+import sopra.auto_ecole.model.CdRom;
+import sopra.auto_ecole.repository.ICdRom;
 import sopra.auto_ecole.Application;
+import sopra.auto_ecole.model.*;
 
-public interface IRepository<T, PK> {
-	public List<T> findAll();
+public class CdRomRepositoryJpa implements ICdRom{
 
-	public T findById(PK id);
-	
-	public default T save(T obj) {
+	public List<CdRom> findAll() {
+		List<CdRom> cdRoms = new ArrayList<CdRom>();
+
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -23,7 +25,9 @@ public interface IRepository<T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			obj = em.merge(obj);
+			TypedQuery<CdRom> query = em.createQuery("select e from cdRom e", CdRom.class);
+
+			cdRoms = query.getResultList();
 
 			tx.commit();
 		} catch (Exception e) {
@@ -38,10 +42,12 @@ public interface IRepository<T, PK> {
 			}
 		}
 
-		return obj;
-	};
+		return cdRoms;
+	}
 
-	public default void delete(T obj) {
+	public CdRom findById(Long id) {
+		CdRom cdRom = null;
+
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -50,7 +56,7 @@ public interface IRepository<T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			em.remove(em.merge(obj));
+			cdRom = em.find(CdRom.class, id);
 
 			tx.commit();
 		} catch (Exception e) {
@@ -64,5 +70,8 @@ public interface IRepository<T, PK> {
 				em.close();
 			}
 		}
-	};
+
+		return cdRom;
+	}
+
 }
