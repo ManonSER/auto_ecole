@@ -15,6 +15,7 @@ public class Application {
 	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auto");
 	
 	private final ISeanceRepository seanceRepo = new SeanceRepositoryJpa();
+	private final IClientRepository clientRepo = new ClientRepositoryJpa();
 
 	private Application() {
 
@@ -35,7 +36,7 @@ public class Application {
 	public ISeanceRepository getSeanceRepo() {
 		return seanceRepo;
 	}
-	private final IClientRepository clientRepo = new ClientRepositoryJpa();
+	
 	
 	
 	public IClientRepository getClientRepo() {
