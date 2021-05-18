@@ -2,6 +2,7 @@ package sopra.auto_ecole.model;
 
 import java.util.Date;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,12 +18,13 @@ public class Seance {
 	private Date date;
 	private int nombreFautes;
 	private Boolean estExamen;
-	@OneToMany(mappedBy="seance")
+	@Embedded
 	private Adresse adresse;
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
-	@OneToMany(mappedBy = "seance")
+	@ManyToOne
+	@JoinColumn(name="serie_id")
 	private Serie serie;
 	
 	public int getId() {

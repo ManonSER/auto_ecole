@@ -26,7 +26,7 @@ public class Client {
 	private Date dtNaissance;
 	@Embedded
 	private Adresse adresse;
-	@OneToMany(mappedBy = client)
+	@OneToMany(mappedBy = "client")
 	private List<Seance> seances = new ArrayList<Seance>();
 	
 	public Client() {

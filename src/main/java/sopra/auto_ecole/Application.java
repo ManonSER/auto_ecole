@@ -12,6 +12,10 @@ public class Application {
 	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("auto");
 	private final ISerie serieRepo = new SerieRepositoryJpa();
 	private final ICdRom cdRomRepo = new CdRomRepositoryJpa();
+	private final IClientRepository clientRepo = new ClientRepositoryJpa();
+	private final ISeanceRepository seanceRepo = new SeanceRepositoryJpa();
+	private final IQuestionRepository questionRepo = new QuestionRepositoryJpa();
+	
 	public static Application getInstance() {
 		if (instance == null) {
 			instance = new Application();
@@ -23,6 +27,10 @@ public class Application {
 	public EntityManagerFactory getEmf() {
 		return emf;
 	}
+	
+	private Application() {
+
+	}	
 
 	public ISerie getSerieRepo() {
 		return serieRepo;
@@ -34,17 +42,12 @@ public class Application {
 
 	public static void setInstance(Application instance) {
 		Application.instance = instance;
-	}
-	private final ISeanceRepository seanceRepo = new SeanceRepositoryJpa();
+	}	
 
 
 	public ISeanceRepository getSeanceRepo() {
 		return seanceRepo;
-	}
-	private final IClientRepository clientRepo = new ClientRepositoryJpa();
-	private Application() {
-
-	}
+	}	
 	
 	
 	public IClientRepository getClientRepo() {
@@ -53,5 +56,5 @@ public class Application {
 	public IQuestionRepository getQuestionRepo() {
 		return questionRepo;
 	}
-	private final IQuestionRepository questionRepo = new QuestionRepositoryJpa();
+	
 }
