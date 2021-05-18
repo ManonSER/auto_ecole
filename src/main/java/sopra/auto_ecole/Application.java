@@ -50,4 +50,8 @@ public class Application {
 	public IClientRepository getClientRepo() {
 		return clientRepo;
 	}
+	public IQuestionRepository getQuestionRepo() {
+		return questionRepo;
+	}
+	private final IQuestionRepository questionRepo = new QuestionRepositoryJpa();
 }
