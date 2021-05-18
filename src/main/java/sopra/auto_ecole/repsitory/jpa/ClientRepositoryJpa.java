@@ -1,19 +1,22 @@
-package sopra.auto_ecole.repository;
+package sopra.auto_ecole.repsitory.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
+import sopra.auto_ecole.model.Client;
+import sopra.auto_ecole.repository.IClientRepository;
 import sopra.auto_ecole.Application;
 
-public interface IRepository <T, PK> {
-	
-	List<T> findAll();
+public class ClientRepositoryJpa implements IClientRepository {
 
-	T findById(PK id);
+	@Override
+	public List<Client> findAll() {
+		List<Client> clients = new ArrayList<Client>();
 
-	public default T save(T obj) {
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -22,7 +25,9 @@ public interface IRepository <T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			obj = em.merge(obj);
+			TypedQuery<Client> query = em.createQuery("select c from Client c", Client.class);
+
+			clients = query.getResultList();
 
 			tx.commit();
 		} catch (Exception e) {
@@ -37,10 +42,13 @@ public interface IRepository <T, PK> {
 			}
 		}
 
-		return obj;
+		return clients;
 	}
 
-	public default void delete(T obj) {
+	@Override
+	public Client findById(Long id) {
+		Client client = null;
+
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -49,7 +57,7 @@ public interface IRepository <T, PK> {
 			tx = em.getTransaction();
 			tx.begin();
 
-			em.remove(em.merge(obj));
+			client = em.find(Client.class, id);
 
 			tx.commit();
 		} catch (Exception e) {
@@ -63,6 +71,8 @@ public interface IRepository <T, PK> {
 				em.close();
 			}
 		}
+
+		return client;
 	}
 
 }
