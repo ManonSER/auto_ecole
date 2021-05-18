@@ -3,6 +3,7 @@ package sopra.auto_ecole.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,7 +23,8 @@ public class Seance {
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
-	@OneToMany(mappedBy = "seance")
+	@ManyToOne(fetch =FetchType.LAZY)
+	@JoinColumn(name = "serie_id")
 	private Serie serie;
 	
 	public int getId() {

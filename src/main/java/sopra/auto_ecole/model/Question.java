@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +28,7 @@ public class Question {
 	private NiveauDifficulte niveauDifficulte;
 	@Column(name = "Theme")
 	private String theme;
+	@ManyToMany
 	@JoinTable(name = "serie", joinColumns = @JoinColumn(name = "question_id"), inverseJoinColumns = @JoinColumn(name = "serie_id"))
 	private List<Serie> series = new ArrayList<Serie>();
 	
